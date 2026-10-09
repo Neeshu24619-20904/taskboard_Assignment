@@ -162,7 +162,7 @@ jobs:
         run: |
           kubectl apply -f k8s/deployment.yaml
           kubectl apply -f k8s/service.yaml
-
+          
       - name: Wait for backend pod to be ready
         run: |
           if ! kubectl wait --for=condition=ready pod \
@@ -189,7 +189,6 @@ jobs:
 
             exit 1
           fi
-
       - name: Test backend API in CI (Curl)
         run: |
           kubectl port-forward service/taskboard-backend 8001:80 -n taskboard &
