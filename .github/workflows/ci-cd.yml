@@ -165,10 +165,30 @@ jobs:
 
       - name: Wait for backend pod to be ready
         run: |
-          kubectl wait --for=condition=ready pod \
+          if ! kubectl wait --for=condition=ready pod \
             -l app=taskboard-backend \
             -n taskboard \
-            --timeout=120s
+            --timeout=120s; then
+
+            echo "===== POD STATUS ====="
+            kubectl get pods -n taskboard -o wide
+
+            echo "===== BACKEND POD DETAILS ====="
+            kubectl describe pods -n taskboard -l app=taskboard-backend
+
+            echo "===== BACKEND LOGS ====="
+            kubectl logs -n taskboard -l app=taskboard-backend \
+              --all-containers=true --tail=200 || true
+
+            echo "===== PREVIOUS CONTAINER LOGS ====="
+            kubectl logs -n taskboard -l app=taskboard-backend \
+              --all-containers=true --previous --tail=100 || true
+
+            echo "===== NAMESPACE EVENTS ====="
+            kubectl get events -n taskboard --sort-by='.lastTimestamp'
+
+            exit 1
+          fi
 
       - name: Test backend API in CI (Curl)
         run: |
