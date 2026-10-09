@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: nensiravaliya28/taskboard-backend:__IMAGE_TAG__
+          image: neeshu24619/taskboard-backend:latest
           ports:
             - containerPort: 8000
           env:
@@ -56,6 +56,6 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: nensiravaliya28/taskboard-frontend:__IMAGE_TAG__
+          image: neeshu24619/taskboard-frontend:latest
           ports:
             - containerPort: 80
