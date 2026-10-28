@@ -102,6 +102,11 @@ jobs:
     name: Push Images to GHCR
     needs: image-scan
     runs-on: ubuntu-latest
+    permissions:
+      contents: read 
+      packages: write 
+
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -116,26 +121,26 @@ jobs:
       - name: Build and tag backend image
         run: |
           docker build \
-            -t ghcr.io/neeshu24619-20904/taskboard-backend:${{ github.sha }} \
-            -t ghcr.io/neeshu24619-20904/taskboard-backend:latest \
+            -t ghcr.io/${{github.repository_owner }}/taskboard-backend:${{ github.sha }} \
+            -t ghcr.io/${{github.repository_owner }}/taskboard-backend:latest \
             ./backend
 
       - name: Build and tag frontend image
         run: |
           docker build \
-            -t ghcr.io/neeshu24619-20904/taskboard-frontend:${{ github.sha }} \
-            -t ghcr.io/neeshu24619-20904/taskboard-frontend:latest \
+            -t ghcr.io/${{github.repository_owner }}/taskboard-frontend:${{ github.sha }} \
+            -t ghcr.io/${{github.repository_owner }}/taskboard-frontend:latest \
             ./frontend
 
       - name: Push backend image
         run: |
-          docker push ghcr.io/neeshu24619-20904/taskboard-backend:${{ github.sha }}
-          docker push ghcr.io/neeshu24619-20904/taskboard-backend:latest
+          docker push ghcr.io/${{github.repository_owner }}/taskboard-backend:${{ github.sha }}
+          docker push ghcr.io/${{github.repository_owner }}/taskboard-backend:latest
 
       - name: Push frontend image
         run: |
-          docker push ghcr.io/neeshu24619-20904/taskboard-frontend:${{ github.sha }}
-          docker push ghcr.io/neeshu24619-20904/taskboard-frontend:latest
+          docker push ghcr.io/${{github.repository_owner }}/taskboard-frontend:${{ github.sha }}
+          docker push ghcr.io/${{github.repository_owner }}/taskboard-frontend:latest
 
   # ========================================
   # STEP 5 — Deploy to Kubernetes
