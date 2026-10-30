@@ -1,7 +1,9 @@
+
+
 frontend:
-  image: ghcr.io/YOUR_ORG/taskboard-frontend
+  image: ghcr.io/neeshu24619-20904/taskboard-frontend
 backend:
-  image: ghcr.io/YOUR_ORG/taskboard-backend
+  image: ghcr.io/neeshu24619-20904/taskboard-backend
 replicaCount: 2
 ingress:
   enabled: true
